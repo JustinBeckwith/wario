@@ -6,4 +6,6 @@ homepage: https://github.com/JustinBeckwith/wario
 dependencies:
   args: "^1.4.3"
 executables:
-  wario: main
+  wario: wario
+environment:
+    sdk: ">=1.8.0 <2.0.0"
