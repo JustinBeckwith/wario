@@ -37,6 +37,12 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.2"
+  json_object:
+    description:
+      name: json_object
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.19+1"
   path:
     description:
       name: path
