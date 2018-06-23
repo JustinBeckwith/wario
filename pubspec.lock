@@ -7,5 +7,59 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.3"
+  async:
+    description:
+      name: async
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
+  charcode:
+    description:
+      name: charcode
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.1"
+  collection:
+    description:
+      name: collection
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.14.6"
+  http:
+    description:
+      name: http
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.11.3+16"
+  http_parser:
+    description:
+      name: http_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.2"
+  path:
+    description:
+      name: path
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.5.1"
+  source_span:
+    description:
+      name: source_span
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.4.0"
+  string_scanner:
+    description:
+      name: string_scanner
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
+  typed_data:
+    description:
+      name: typed_data
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.5"
 sdks:
-  dart: ">=1.22.0 <2.0.0"
+  dart: ">=1.23.0 <2.0.0"
