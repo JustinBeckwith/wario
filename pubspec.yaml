@@ -1,0 +1,9 @@
+name: wario
+description: A multi-repo management mammer jammer.
+version: 0.1.0
+author: Justin Beckwith <justin.beckwith@gmail.com>
+homepage: https://github.com/JustinBeckwith/wario
+dependencies:
+  args: "^1.4.3"
+executables:
+  wario: main
