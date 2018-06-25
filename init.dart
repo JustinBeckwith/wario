@@ -1,7 +1,6 @@
 import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'package:json_object/json_object.dart';
 import 'package:colorize/colorize.dart';
+import './utils.dart';
 
 init(String language) async {
   final dir = await prepare();
@@ -24,14 +23,6 @@ prepare() async {
   return root;
 }
 
-getRepoList() async {
-  const url = 'https://raw.githubusercontent.com/JustinBeckwith/sloth/master/repos.json';
-  color('Fetching repos from ${url}.', front: Styles.CYAN, isBold: true);
-  final res = await http.get(url);
-  final RepoResponse data = new JsonObject.fromJsonString(res.body);
-  return data.repos;
-}
-
 cloneRepo(Directory dir, String repo) async {
   var cloneUri = 'git@github.com:${repo}.git';
   color('Cloning ${repo} ...', front: Styles.CYAN);
@@ -40,13 +31,4 @@ cloneRepo(Directory dir, String repo) async {
     color('Error cloning ${repo}', front: Styles.RED, isBold: true);
     color(results.stderr, front: Styles.RED, isBold: true);
   }
-}
-
-abstract class RepoResponse {
-  List<Repo> repos;
-}
-
-abstract class Repo {
-  String repo;
-  String language;
 }
