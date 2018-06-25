@@ -1,6 +1,8 @@
 # W-A-R-I-O
 > An opinionated GitHub multi-repo wiz bang doodle. Written in Dart.
 
+![WARIO](https://i.imgur.com/rnBMps7.png)
+
 ## Installation
 WARIO requires the latest version of [Dart](https://www.dartlang.org/). You can download the latest and greatest [here](https://www.dartlang.org/tools/sdk#install). After that's all worked out, install WARIO as a global:
 
