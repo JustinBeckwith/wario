@@ -1,20 +1,23 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
-import 'package:json_object/json_object.dart';
 import 'package:colorize/colorize.dart';
 
-abstract class RepoResponse {
-  List<Repo> repos;
-}
-
-abstract class Repo {
+class Repo {
   String repo;
   String language;
+  Repo(this.repo, this.language);
+  factory Repo.fromJson(dynamic json) {
+    return Repo(json['repo'] as String, json['language'] as String);
+  }
+
 }
 
 Future<List<Repo>> getRepoList() async {
-  const url = 'https://raw.githubusercontent.com/JustinBeckwith/sloth/master/repos.json';
+  const url = 'https://raw.githubusercontent.com/googleapis/sloth/master/repos.json';
   color('Fetching repos from ${url}.', front: Styles.CYAN, isBold: true);
   final res = await http.get(url);
-  final RepoResponse data = new JsonObject.fromJsonString(res.body);
-  return data.repos;
+  var reposJson = jsonDecode(res.body)['repos'] as List;
+  List<Repo> repos = reposJson.map((repo) => Repo.fromJson(repo)).toList();
+  return repos;
 }

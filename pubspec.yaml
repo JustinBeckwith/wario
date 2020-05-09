@@ -4,12 +4,12 @@ version: 0.1.0
 author: Justin Beckwith <justin.beckwith@gmail.com>
 homepage: https://github.com/JustinBeckwith/wario
 dependencies:
-  args: "^1.4.3"
-  http: "^0.11.3+16"
-  json_object: ^1.0.19
-  colorize: "^0.1.2"
-  github: "^3.0.0"
+  args: "^1.6.0"
+  http: "^0.12.1"
+  json_object_lite: ^2.1.1
+  colorize: "^2.0.0"
+  github: "^6.0.0"
 executables:
   wario: wario
 environment:
-    sdk: ">=1.8.0 <2.0.0"
+  sdk: ">=2.8.0"

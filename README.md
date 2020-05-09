@@ -31,12 +31,5 @@ $ wario exec -- git commit -a -m 'fix: make us go'
 $ wario exec -- git push origin datfix
 ```
 
-#### wario approve
-Approve a set of pull requests against all given repositories that match the name of the PR.
-
-```sh
-$ wario approve 'fix: make us go'
-```
-
 ## License
 [Apache 2.0](LICENSE)
