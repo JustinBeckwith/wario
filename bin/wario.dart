@@ -1,7 +1,6 @@
 import 'dart:io';
-import '../init.dart';
-
-import '../exec.dart';
+import '../lib/init.dart';
+import '../lib/exec.dart';
 
 void main(List<String> arguments) {
   if (arguments.length == 0) {

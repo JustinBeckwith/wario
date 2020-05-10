@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show Client;
 import 'package:colorize/colorize.dart';
 
 class Repo {
@@ -10,14 +9,17 @@ class Repo {
   factory Repo.fromJson(dynamic json) {
     return Repo(json['repo'] as String, json['language'] as String);
   }
-
 }
 
+const host = 'https://raw.githubusercontent.com';
+const path = "/googleapis/sloth/master/repos.json";
+const url = host + path;
+
 Future<List<Repo>> getRepoList() async {
-  const url = 'https://raw.githubusercontent.com/googleapis/sloth/master/repos.json';
   color('Fetching repos from ${url}.', front: Styles.CYAN, isBold: true);
-  final res = await http.get(url);
-  var reposJson = jsonDecode(res.body)['repos'] as List;
-  List<Repo> repos = reposJson.map((repo) => Repo.fromJson(repo)).toList();
+  final client = new Client();
+  final res = await client.get(url);
+  final reposJson = jsonDecode(res.body)['repos'] as List;
+  final repos = reposJson.map((repo) => Repo.fromJson(repo)).toList();
   return repos;
 }
