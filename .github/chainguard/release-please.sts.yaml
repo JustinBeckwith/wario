@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/octo-sts/app/refs/heads/main/pkg/octosts/octosts.TrustPolicy.json
+issuer: https://token.actions.githubusercontent.com
+subject: repo:JustinBeckwith/wario:ref:refs/heads/main
+audience: octo-sts-release-please
+
+claim_pattern:
+  workflow_ref: ^JustinBeckwith/wario/.github/workflows/release-please\.yml@refs/heads/main$
+  event_name: ^push$
+
+permissions:
+  contents: write
+  issues: write
+  pull_requests: write

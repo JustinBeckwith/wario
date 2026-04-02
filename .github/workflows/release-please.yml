@@ -1,0 +1,43 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Exchange OIDC token for Octo STS token
+        id: octo-sts
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          oidc_response="$(curl --fail --silent --show-error \
+            -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=octo-sts-release-please")"
+          oidc_token="$(printf '%s' "$oidc_response" | python3 -c 'import json,sys; print(json.load(sys.stdin)["value"])')"
+
+          sts_response="$(curl --fail --silent --show-error \
+            -H "Authorization: Bearer $oidc_token" \
+            "https://octo-sts.dev/sts/exchange?scope=${GITHUB_REPOSITORY}&identity=release-please")"
+          sts_token="$(printf '%s' "$sts_response" | python3 -c 'import json,sys; print(json.load(sys.stdin)["access_token"])')"
+
+          if [ -z "$sts_token" ] || [ "$sts_token" = "null" ]; then
+            echo "Octo STS did not return an access token." >&2
+            exit 1
+          fi
+
+          echo "::add-mask::$sts_token"
+          echo "token=$sts_token" >> "$GITHUB_OUTPUT"
+
+      - uses: googleapis/release-please-action@c3fc4de07084f75a2b61a5b933069bda6edf3d5c
+        with:
+          token: ${{ steps.octo-sts.outputs.token }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json

@@ -85,4 +85,18 @@ Add or update tests when changing:
 If behavior changes, update both:
 
 - `README.md` for end users
+- `CONTRIBUTING.md` for contributors and maintainers
 - `AGENTS.md` for future maintainers and coding agents
+
+## Release Automation
+
+- Releases are managed with `googleapis/release-please-action`.
+- The repository uses the `dart` release strategy.
+- `release-please` configuration lives in `release-please-config.json`.
+- The current released version baseline lives in `.release-please-manifest.json`.
+- Release tags should stay in `v<version>` format to match pub.dev trusted publishing.
+- Release automation uses Octo STS instead of a long-lived PAT.
+- The trust policy for release automation lives in `.github/chainguard/release-please.sts.yaml`.
+- Keep the trust policy narrowly scoped to the `release-please` workflow on the `main` branch of this repository unless behavior intentionally changes.
+- Keep the OIDC audience and trust policy audience aligned.
+- Commit messages that should affect versioning should follow Conventional Commits.
