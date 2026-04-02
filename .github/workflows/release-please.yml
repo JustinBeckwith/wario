@@ -26,7 +26,7 @@ jobs:
           sts_response="$(curl --fail --silent --show-error \
             -H "Authorization: Bearer $oidc_token" \
             "https://octo-sts.dev/sts/exchange?scope=${GITHUB_REPOSITORY}&identity=release-please")"
-          sts_token="$(printf '%s' "$sts_response" | python3 -c 'import json,sys; print(json.load(sys.stdin)["access_token"])')"
+          sts_token="$(printf '%s' "$sts_response" | python3 -c 'import json,sys; data=json.load(sys.stdin); print(data.get("token") or data.get("access_token") or "")')"
 
           if [ -z "$sts_token" ] || [ "$sts_token" = "null" ]; then
             echo "Octo STS did not return an access token." >&2
