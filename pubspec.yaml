@@ -1,6 +1,6 @@
 name: wario
 description: A multi-repo management mammer jammer.
-version: 0.1.0
+version: 0.2.0
 homepage: https://github.com/JustinBeckwith/wario
 dependencies:
   args: ^2.7.0
