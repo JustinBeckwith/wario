@@ -1,32 +1,96 @@
-import 'dart:convert';
-
-import 'package:nock/nock.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
 import 'package:test/test.dart';
-import '../lib/utils.dart' as util;
+import 'package:wario/config.dart';
+import 'package:wario/utils.dart';
 
 void main() {
-  setUpAll(() {
-    nock.init();
+  test('fetches repo list from GitHub org search', () async {
+    final client = MockClient((request) async {
+      expect(request.url.host, gitHubApiHost);
+      expect(request.url.path, gitHubSearchRepositoriesPath);
+      expect(request.url.queryParameters['q'], 'org:promptfoo archived:false');
+      return http.Response('''
+{
+  "items": [
+    {"full_name": "promptfoo/promptfoo"},
+    {"full_name": "promptfoo/promptfoo-site"}
+  ]
+}
+''', 200);
+    });
+
+    final repos = await getRepoList(
+      WarioConfig(
+        cloneDirectory: '/tmp/.wario',
+        repos: const [],
+        org: 'promptfoo',
+        filter: 'archived:false',
+        configPath: '/tmp/.wario.json',
+        exists: true,
+      ),
+      client: client,
+    );
+
+    expect(repos.map((repo) => repo.repo).toList(), [
+      'promptfoo/promptfoo',
+      'promptfoo/promptfoo-site',
+    ]);
   });
-  setUp(() {
-    nock.cleanAll();
+
+  test('sends auth headers when a GitHub token is available', () async {
+    final client = MockClient((request) async {
+      expect(request.headers['authorization'], 'Bearer test-token');
+      return http.Response('''
+{
+  "items": [
+    {"full_name": "promptfoo/promptfoo"}
+  ]
+}
+''', 200);
+    });
+
+    final repos = await getRepoList(
+      WarioConfig(
+        cloneDirectory: '/tmp/.wario',
+        repos: const [],
+        org: 'promptfoo',
+        filter: 'archived:false',
+        configPath: '/tmp/.wario.json',
+        exists: true,
+      ),
+      client: client,
+      githubToken: 'test-token',
+    );
+
+    expect(repos.map((repo) => repo.repo).toList(), ['promptfoo/promptfoo']);
   });
-  test('should get repo list', () async {
-    dynamic jsonResponse = {
-      'repos': [
-        {
-          'repo': 'JustinBeckwith/wario',
-          'language': 'dart'
-        }
-      ]
-    };
-    final interceptor = nock(util.host).get(util.path)
-      ..replay(
-        200,
-        jsonEncode(jsonResponse),
-      );
-    final list = await util.getRepoList();
-    expect(interceptor.isDone, true);
-    expect(list.length, 1);
+
+  test('uses the token resolver when no explicit token is provided', () async {
+    final client = MockClient((request) async {
+      expect(request.headers['authorization'], 'Bearer gh-token');
+      return http.Response('''
+{
+  "items": [
+    {"full_name": "promptfoo/promptfoo"}
+  ]
+}
+''', 200);
+    });
+
+    final repos = await getRepoList(
+      WarioConfig(
+        cloneDirectory: '/tmp/.wario',
+        repos: const [],
+        org: 'promptfoo',
+        filter: 'archived:false',
+        configPath: '/tmp/.wario.json',
+        exists: true,
+      ),
+      client: client,
+      githubTokenResolver: () async => 'gh-token',
+    );
+
+    expect(repos.map((repo) => repo.repo).toList(), ['promptfoo/promptfoo']);
   });
 }
