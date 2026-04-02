@@ -50,6 +50,8 @@ When that release PR is merged, `release-please` creates a GitHub release and pu
 
 For this repository, the tag format is `v1.2.3`. That should match the tag pattern configured for pub.dev trusted publishing.
 
+Publishing to pub.dev is handled by `.github/workflows/publish.yml`, which is triggered by tags matching `v[0-9]+.[0-9]+.[0-9]+`.
+
 ### GitHub Token
 
 Release automation uses Octo STS instead of a long-lived PAT.
@@ -61,6 +63,15 @@ The release workflow exchanges the GitHub Actions OIDC token for a short-lived G
 The trust policy is intentionally bound to the `release-please` workflow on the `main` branch and to a dedicated OIDC audience so other workflows cannot reuse the same Octo STS identity by accident.
 
 This keeps repo write credentials ephemeral while still allowing release tags to trigger downstream publish workflows.
+
+### pub.dev Setup
+
+In the `wario` package admin page on pub.dev, automated publishing from GitHub Actions should be configured for:
+
+- repository: `JustinBeckwith/wario`
+- tag pattern: `v{{version}}`
+
+If you want an approval gate before publishing, require the `pub.dev` GitHub Actions environment on pub.dev and then uncomment the `environment: pub.dev` line in `.github/workflows/publish.yml`.
 
 ### Commit Message Format
 
@@ -85,6 +96,7 @@ Commits like `docs:`, `test:`, and `chore:` can still be included in release PRs
 - `lib/utils.dart`: GitHub repo discovery and auth lookup
 - `test/`: CLI, config, sync, exec, and auth coverage
 - `.github/chainguard/release-please.sts.yaml`: Octo STS trust policy for release automation
+- `.github/workflows/publish.yml`: pub.dev trusted publishing workflow triggered by release tags
 - `.github/workflows/release-please.yml`: release PR and GitHub release automation
 - `release-please-config.json`: release-please package configuration
 - `.release-please-manifest.json`: current released version tracked by release-please
