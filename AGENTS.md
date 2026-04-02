@@ -95,6 +95,7 @@ If behavior changes, update both:
 - `release-please` configuration lives in `release-please-config.json`.
 - The current released version baseline lives in `.release-please-manifest.json`.
 - Release tags should stay in `v<version>` format to match pub.dev trusted publishing.
+- `.github/workflows/publish.yml` owns tag-triggered publishing to pub.dev.
 - Release automation uses Octo STS instead of a long-lived PAT.
 - The trust policy for release automation lives in `.github/chainguard/release-please.sts.yaml`.
 - Keep the trust policy narrowly scoped to the `release-please` workflow on the `main` branch of this repository unless behavior intentionally changes.
