@@ -1,5 +1,7 @@
 # Wario
 
+![WARIO](https://i.imgur.com/rnBMps7.png)
+
 Wario is a small Dart CLI for working across many GitHub repositories at once.
 
 It does two things well:
@@ -21,12 +23,6 @@ Activate the package globally:
 
 ```sh
 dart pub global activate wario
-```
-
-Or run it directly from this repo while developing:
-
-```sh
-dart run wario --help
 ```
 
 ## Configuration
@@ -177,48 +173,9 @@ wario sync
 wario exec -- git status --short
 ```
 
-## Development
+## Contributing
 
-Install dependencies:
-
-```sh
-dart pub get
-```
-
-Run the CLI locally:
-
-```sh
-dart run wario --help
-dart run wario sync
-dart run wario exec -- git status --short
-```
-
-Run quality checks:
-
-```sh
-dart format --output=none --set-exit-if-changed bin lib test
-dart analyze
-dart test -r expanded
-```
-
-## CI
-
-CI runs:
-
-- formatting checks
-- static analysis
-- the full test suite
-
-See [`.github/workflows/ci.yaml`](.github/workflows/ci.yaml).
-
-## Project Layout
-
-- `bin/wario.dart`: CLI entrypoint and argument parsing
-- `lib/config.dart`: config loading and validation
-- `lib/sync.dart`: repo sync behavior
-- `lib/exec.dart`: multi-repo command execution
-- `lib/utils.dart`: GitHub repo discovery and auth lookup
-- `test/`: CLI, config, sync, exec, and auth coverage
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, testing, and release automation details.
 
 ## License
 
